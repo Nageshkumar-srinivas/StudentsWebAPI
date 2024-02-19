@@ -1,18 +1,26 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentsAPI.Data;
 
 namespace StudentsAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase
     {
+        private readonly StudentsDbContext dbContext;
+
+        public StudentsController(StudentsDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
         [HttpGet]
         public IActionResult GetAllStudents()
         {
-            string[] names = {"Nagesh", "Naveen", "Nandeesh"};
+            var students = dbContext.Students.ToList();
 
-            return Ok(names);
+            return Ok(students);
         }
 
     }
