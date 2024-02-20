@@ -15,13 +15,28 @@ namespace StudentsAPI.Controllers
         {
             this.dbContext = dbContext;
         }
+
         [HttpGet]
         public IActionResult GetAllStudents()
         {
             var students = dbContext.Students.ToList();
-
             return Ok(students);
         }
+
+        [HttpGet]
+        [Route("id")]
+        public IActionResult GetStudent(int id)
+        {
+            var student = dbContext.Students.SingleOrDefault(s => s.Id == id);
+
+            if(student == null)
+            {
+                return NotFound();
+            }
+            return Ok(student);
+        }
+
+
 
     }
 }
