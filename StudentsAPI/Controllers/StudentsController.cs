@@ -27,7 +27,7 @@ namespace StudentsAPI.Controllers
         [Route("id")]
         public IActionResult GetStudent(int id)
         {
-            var student = dbContext.Students.SingleOrDefault(s => s.Id == id);
+            var student = dbContext.Students.Find(id);
 
             if(student == null)
             {
