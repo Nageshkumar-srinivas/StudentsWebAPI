@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentsAPI.Data;
+using StudentsAPI.Models.Domain;
 
 namespace StudentsAPI.Controllers
 {
@@ -36,7 +37,45 @@ namespace StudentsAPI.Controllers
             return Ok(student);
         }
 
+        [HttpPost]
+        public IActionResult CreateStudent(Student student)
+        {
+            if(student == null)
+            {
+                return BadRequest();
+            }
 
+            Student student1 = new Student
+            {
+                Name = student.Name,
+                Age = student.Age,
+                Class = student.Class,
+                Id = student.Id,
+                TeacherId = student.TeacherId,
+                Teacher = student.Teacher,
+            };
+            
+            dbContext.Students.Add(student1);
+            dbContext.SaveChanges();
 
+            return Ok();
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteStudent(int id)
+        {
+            var student = dbContext.Students.Find(id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            dbContext.Students.Remove(student);
+            dbContext.SaveChanges();
+
+            return Ok();
+
+        }
     }
 }
